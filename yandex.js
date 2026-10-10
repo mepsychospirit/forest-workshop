@@ -53,6 +53,12 @@
       document.head.append(script);
     });
   }
+  function isYandexGamesHost() {
+    const host = String(location.hostname || "").toLowerCase();
+    return host === "yandex.ru" || host.endsWith(".yandex.ru") ||
+      host === "yandex.net" || host.endsWith(".yandex.net") ||
+      host === "yandex.com" || host.endsWith(".yandex.com");
+  }
   function cloudSaveIsAhead(cloud, local) {
     const progress = (save) => [
       save.prestige,
@@ -87,7 +93,10 @@
     catch { return false; }
   }
   async function initializeYandexGames() {
-    if (location.protocol === "file:") return;
+    // VK and other hosts run the game in an iframe. Do not request the
+    // Yandex SDK there: ads/cloud save are optional and local save remains
+    // available, while the game UI must start immediately.
+    if (location.protocol === "file:" || !isYandexGamesHost()) return;
     try {
       await loadYandexScript();
       if (!window.YaGames) throw new Error("YaGames is unavailable");
