@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Рынок">
+  <defs>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d99a50"/><stop offset="1" stop-color="#a86632"/></linearGradient>
+    <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e5794c"/><stop offset="1" stop-color="#bd4c35"/></linearGradient>
+  </defs>
+  <rect x="5" y="6" width="54" height="52" rx="14" fill="#e8f0df"/>
+  <path d="M10 25h44l-4-10H14z" fill="#356b4c"/>
+  <path d="M11 23h42v8H11z" fill="url(#roof)"/>
+  <path d="M16 23v8M27 23v8M38 23v8M49 23v8" stroke="#f8e5bf" stroke-width="5"/>
+  <path d="M15 33h34v18H15z" fill="#f6dcae" stroke="#8c582e" stroke-width="2"/>
+  <path d="M19 37h9v7h-9zM36 37h9v7h-9z" fill="#6f9b6b" stroke="#356b4c" stroke-width="1.5"/>
+  <path d="M12 50h40v5H12z" fill="url(#wood)" stroke="#8c582e" stroke-width="2"/>
+  <path d="M18 47h28" stroke="#8c582e" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="25" cy="40" r="1.4" fill="#f8e5bf"/><circle cx="39" cy="40" r="1.4" fill="#f8e5bf"/>
+</svg>

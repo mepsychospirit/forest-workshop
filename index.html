@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9f0e8">
+  <title data-i18n="pageTitle">Лесная мастерская</title>
+  <link rel="stylesheet" href="styles.css?v=20261009-19">
+</head>
+<body>
+  <nav class="sidebar-nav" aria-label="Разделы игры">
+    <div class="sidebar-logo" aria-hidden="true">🌲</div>
+    <button class="side-button is-active" type="button" data-panel="profilePanel" aria-label="Профиль"><img src="assets/ui/profile.svg" alt=""><span>Профиль</span></button>
+    <button class="side-button" type="button" data-panel="achievementsPanel" aria-label="Достижения"><img src="assets/ui/achievements.svg" alt=""><span>Цели</span></button>
+    <button class="side-button" type="button" data-panel="collectionPanel" aria-label="Коллекция"><img src="assets/ui/collection.svg" alt=""><span>Коллекция</span></button>
+    <button class="side-button" type="button" data-panel="ordersPanel" aria-label="Заказы"><img src="assets/ui/market.svg" alt=""><span>Заказы</span></button>
+  </nav>
+  <main class="shell">
+    <p id="gameError" role="alert" hidden></p>
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">🌲</div>
+        <div>
+          <p class="brand-name" data-i18n="brandName">Лесная мастерская</p>
+          <p class="brand-subtitle" data-i18n="brandSubtitle">Твоя мастерская в сердце леса</p>
+        </div>
+      </div>
+      <div class="top-actions"><button class="new-game-button" id="resetButton" type="button" data-i18n="newGame" data-i18n-title="resetTitle">Новая игра</button></div>
+    </header>
+
+    <section class="landscape" aria-labelledby="zoneName">
+      <div class="landscape-copy">
+        <p class="eyebrow" data-i18n="zoneEyebrow">Тихая долина · твоя новая история</p>
+        <h1 id="zoneName" data-i18n="zoneTitle">Добро пожаловать в долину</h1>
+        <p data-i18n="zoneDescription">Начни с леса, построй мастерскую и преврати древесину в прибыль.</p>
+      </div>
+      <div class="landscape-art" aria-hidden="true">🌲 🌳</div>
+    </section>
+
+    <section class="overview" aria-label="Твоя мастерская" data-i18n-aria-label="statsAria">
+      <div class="metric"><div class="metric-label" data-i18n="balanceLabel">Монеты</div><div class="metric-value" id="cash">0 монет</div></div>
+      <div class="metric"><div class="metric-label" data-i18n="incomeLabel">Доход в секунду</div><div class="metric-value" id="income">0 / сек</div></div>
+      <div class="metric"><div class="metric-label" data-i18n="lifetimeLabel">Заработано за всё время</div><div class="metric-value" id="lifetime">0</div></div>
+    </section>
+
+    <section class="resources" aria-label="На складе" data-i18n-aria-label="resourcesAria">
+      <div class="resource"><span class="resource-icon" aria-hidden="true"><img src="assets/ui/02_brevno.png" alt=""></span><div><div class="resource-label" data-i18n="logsLabel">Брёвна</div><div class="resource-value" id="logs">0</div></div></div>
+      <div class="resource"><span class="resource-icon" aria-hidden="true"><img src="assets/ui/03_doski.png" alt=""></span><div><div class="resource-label" data-i18n="planksLabel">Доски</div><div class="resource-value" id="planks">0</div></div></div>
+      <div class="resource"><span class="resource-icon" aria-hidden="true"><img src="assets/ui/04_yashchik.png" alt=""></span><div><div class="resource-label" data-i18n="cratesLabel">Ящики</div><div class="resource-value" id="crates">0</div></div></div>
+    </section>
+
+    <section class="mobile-field" aria-label="Игровое поле">
+      <div class="field-hud" aria-label="Запасы мастерской">
+        <div class="field-resource" title="Монеты"><img src="assets/ui/05_moneta.png" alt="Монеты"><span id="fieldCash">0</span></div>
+        <div class="field-resource" title="Брёвна"><img src="assets/ui/02_brevno.png" alt="Брёвна"><span id="fieldLogs">0</span></div>
+        <div class="field-resource" title="Доски"><img src="assets/ui/03_doski.png" alt="Доски"><span id="fieldPlanks">0</span></div>
+        <div class="field-resource" title="Ящики"><img src="assets/ui/04_yashchik.png" alt="Ящики"><span id="fieldCrates">0</span></div>
+        <div class="field-resource is-rate" title="Потенциальная выручка в секунду"><img src="assets/ui/06_energiya.png" alt="Потенциальная выручка"><span id="fieldIncome">0/сек</span></div>
+        <div class="field-resource" id="fieldWaterResource" title="Вода" hidden><img src="assets/ui/47_voda.png" alt="Вода"><span id="fieldWater">0</span></div>
+        <div class="field-resource" id="fieldFlourResource" title="Мука" hidden><img src="assets/ui/11_muka.png" alt="Мука"><span id="fieldFlour">0</span></div>
+        <div class="field-resource" id="fieldGrainResource" title="Зерно" hidden><img src="assets/ui/10_zerno.png" alt="Зерно"><span id="fieldGrain">0</span></div>
+        <div class="field-resource" id="fieldStoneResource" title="Камень" hidden><img src="assets/ui/09_kamen.png" alt="Камень"><span id="fieldStone">0</span></div>
+        <div class="field-resource" id="fieldBricksResource" title="Кирпичи" hidden><img src="assets/ui/22_stroyka.png" alt="Кирпичи"><span id="fieldBricks">0</span></div>
+        <div class="field-resource" id="fieldToolsResource" title="Инструменты" hidden><img src="assets/ui/20_laboratoriya.png" alt="Инструменты"><span id="fieldTools">0</span></div>
+      </div>
+      <div class="field-grid" id="fieldGrid">
+        <div class="field-cell"></div><div class="field-cell"><button class="field-object" type="button" data-field="forest" aria-label="Лесная делянка"><img src="assets/ui/forest.svg" alt=""><span class="field-level" id="fieldForestLevel">1</span><span class="field-status" id="fieldForestStatus">Работает</span></button></div><div class="field-cell"></div><div class="field-cell"><button class="field-object" type="button" data-field="mill" aria-label="Лесопилка"><img src="assets/ui/sawmill.svg" alt=""><span class="field-level" id="fieldMillLevel">1</span><span class="field-status" id="fieldMillStatus">Ждёт сырьё</span></button></div><div class="field-cell"></div>
+        <div class="field-cell"><button class="field-object is-locked" type="button" data-field="farm" aria-label="Ферма"><img src="assets/ui/15_ferma.png" alt=""><span class="field-level" id="fieldFarmLevel">🔒</span><span class="field-status" id="fieldFarmStatus">Уровень 4</span></button><button class="field-upgrade" type="button" data-upgrade-zone="farm" aria-label="Улучшить ферму" title="Улучшить ферму" hidden>↑</button></div><div class="field-cell"><button class="field-object is-locked" type="button" data-field="river" aria-label="Речная пристань"><img src="assets/ui/market.svg" alt=""><span class="field-level" id="fieldRiverLevel">🔒</span><span class="field-status" id="fieldRiverStatus">Уровень 3</span></button><button class="field-upgrade" type="button" data-upgrade-zone="river" aria-label="Улучшить речную пристань" title="Улучшить речную пристань" hidden>↑</button></div><div class="field-cell"></div><div class="field-cell"><button class="field-object is-locked" type="button" data-field="quarry" aria-label="Каменоломня"><img src="assets/ui/09_kamen.png" alt=""><span class="field-level" id="fieldQuarryLevel">🔒</span><span class="field-status" id="fieldQuarryStatus">Уровень 6</span></button><button class="field-upgrade" type="button" data-upgrade-zone="quarry" aria-label="Улучшить каменоломню" title="Улучшить каменоломню" hidden>↑</button></div><div class="field-cell"><button class="field-object is-locked" type="button" data-field="tools" aria-label="Инструментальная"><img src="assets/ui/20_laboratoriya.png" alt=""><span class="field-level" id="fieldToolsLevel">🔒</span><span class="field-status" id="fieldToolsStatus">Уровень 7</span></button><button class="field-upgrade" type="button" data-upgrade-zone="tools" aria-label="Улучшить инструментальную" title="Улучшить инструментальную" hidden>↑</button></div>
+        <div class="field-cell"><button class="field-object" type="button" data-field="packing" aria-label="Мастерская упаковки"><img src="assets/ui/packing.svg" alt=""><span class="field-level" id="fieldPackingLevel">1</span><span class="field-status" id="fieldPackingStatus">Ждёт доски</span></button></div><div class="field-cell"></div><div class="field-cell"></div><div class="field-cell"><button class="field-object" type="button" data-field="market" aria-label="Рыночная площадь"><img src="assets/ui/market.svg" alt=""><span class="field-level" id="fieldMarketLevel">🔒</span><span class="field-status" id="fieldMarketStatus">Закрыт</span></button></div><div class="field-cell"></div>
+        <div class="field-cell"></div><div class="field-cell"></div><div class="field-cell"><button class="field-object" type="button" data-field="warehouse" aria-label="Открыть склад"><img src="assets/ui/14_sklad.png" alt=""><span class="field-level" id="fieldWarehouseLevel">1</span><span class="field-status" id="fieldWarehouseStatus">Открыть</span></button></div><div class="field-cell"></div><div class="field-cell"></div>
+      </div>
+      <div class="field-next" id="fieldNextProduction">Следующий результат: собираем брёвна…</div>
+      <section class="field-boosters" aria-label="Бонусы за просмотр рекламы"><div class="field-boosters-head"><strong>Бонусы лесных духов</strong><span id="rewardStatus" aria-live="polite">Награда за просмотр видео</span></div><button id="rewardBooster" type="button" disabled>▶ ×2 производство · 60 сек.</button><button class="secondary" id="rewardCoins" type="button" disabled>▶ Получить монеты</button></section>
+    </section>
+
+    <section class="tutorial-card" id="tutorialCard" aria-live="polite">
+      <div class="tutorial-step-icon" id="tutorialIcon" aria-hidden="true">🪵</div>
+      <div><strong id="tutorialTitle">Шаг 1 · Заготовь брёвна</strong><p id="tutorialDescription">Зайди на лесную делянку и дождись первых 3 брёвен.</p></div>
+      <span class="tutorial-count" id="tutorialCount">0 / 5</span>
+      <div class="tutorial-actions"><button class="tutorial-restart" id="tutorialRestart" type="button" hidden>Перезапустить</button><button class="mill-button tutorial-claim" id="tutorialClaim" type="button" hidden>Забрать +50 монет</button></div>
+    </section>
+    <section class="event-card" id="eventCard" hidden aria-live="polite"><div class="event-icon" id="eventIcon">✨</div><div><strong id="eventTitle">Событие долины</strong><p id="eventDescription"></p></div><div class="event-actions"><span class="event-timer" id="eventTimer"></span><button class="event-action" id="eventAction" type="button" hidden>На рынок</button></div></section>
+    <section class="weekly-event-card" id="weeklyEventCard" aria-live="polite"><div class="weekly-event-icon" id="weeklyEventIcon">🎪</div><div><h3 id="weeklyEventTitle">Событие недели</h3><p id="weeklyEventDescription"></p></div><div class="weekly-event-meta"><span id="weeklyEventMeta"></span><button class="order-button" id="weeklyClaim" type="button">Забрать</button></div></section>
+
+    <section class="workshop-map" aria-labelledby="mapTitle">
+      <div class="map-heading"><div><h2 id="mapTitle" data-i18n="mapTitle">Твоя долина</h2><p data-i18n="mapSubtitle">Выбирай здание, заходи внутрь и развивай производство</p></div><span class="section-note" id="mapProgress">1 / 4</span></div>
+      <div class="map-grid" id="mapGrid" aria-label="Объекты мастерской">
+        <div class="map-path" aria-hidden="true"></div>
+        <button class="map-node" type="button" data-map="forest"><img src="assets/ui/forest.svg" alt=""><strong data-i18n="forestName">Лесная делянка</strong><small id="mapForestLevel">Уровень 1</small></button>
+        <button class="map-node" type="button" data-map="mill"><img src="assets/ui/sawmill.svg" alt=""><strong data-i18n="millName">Лесопилка</strong><small id="mapMillLevel">Уровень 1</small></button>
+        <button class="map-node" type="button" data-map="packing"><img src="assets/ui/packing.svg" alt=""><strong data-i18n="packingName">Мастерская упаковки</strong><small id="mapPackingLevel">Уровень 1</small></button>
+        <button class="map-node is-locked" type="button" data-map="market"><img src="assets/ui/market.svg" alt=""><strong data-i18n="mapStall">Рыночная площадь</strong><small id="mapMarketStatus">Открыть · 180</small></button>
+      </div>
+      <div class="map-details" aria-live="polite">
+        <div class="map-details-main"><img class="map-details-icon" id="mapDetailIcon" src="assets/ui/forest.svg" alt=""><div><h3 id="mapDetailTitle">Лесная делянка</h3><p id="mapDetailDescription">Здесь начинается путь каждого бревна.</p></div></div>
+        <button class="map-action" id="mapAction" type="button">Выбрать</button>
+      </div>
+    </section>
+
+    <p class="notice" id="notice" role="status" aria-live="polite"></p>
+    <section class="zone-card prestige-card"><h3>Престиж долины</h3><p id="prestigeText">Доступен после 10 уровня игрока и открытия рынка.</p><div class="prestige-choices"><button type="button" data-prestige="speed">Скорость</button><button type="button" data-prestige="value">Цена продажи</button><button type="button" data-prestige="storage">Вместимость</button></div><button id="prestigeAction" type="button">Начать новый цикл</button></section>
+    <footer class="footer" data-i18n="saveFooter">Прогресс сохраняется в браузере и, на платформе, в профиле Яндекс Игр. Офлайн-доход начисляется до 8 часов.</footer>
+  </main>
+
+  <section class="location-screen" id="millLocation" aria-labelledby="millLocationTitle" aria-hidden="true">
+    <div class="location-shell">
+      <header class="location-top"><button class="back-button" id="locationBack" type="button">← На карту</button><div style="text-align:right"><h1 class="location-title" id="millLocationTitle">Лесопилка</h1><p class="location-subtitle">Участок 02 · Производство досок</p></div></header>
+      <div class="location-hero"><div class="location-copy"><p class="eyebrow" id="locationEyebrow">ЛЕСОПИЛКА · УРОВЕНЬ <span id="locationMillLevel">1</span></p><h2>Доски рождаются здесь</h2><p>Подавай брёвна на станок, улучшай производство и снабжай мастерскую досками.</p></div><div class="sawmill-art" aria-hidden="true"><img id="locationBuildingIcon" class="location-building-icon" src="assets/ui/sawmill.svg" alt=""></div><div class="location-fx" id="locationFx"></div><div class="market-cart" id="marketCart" aria-hidden="true"><span class="cart-box"></span><span class="cart-bed"></span></div></div>
+      <div class="mill-dashboard">
+        <article class="mill-card"><h3 id="locationInputTitle">Брёвна</h3><div class="mill-number" id="millLocationLogs">0</div><div class="mill-progress"><span id="millLogProgress"></span></div><div class="mill-muted" id="millLogHint">Запас на складе</div></article>
+        <article class="mill-card"><h3 id="locationOutputTitle">Готовые доски</h3><div class="mill-number" id="millLocationPlanks">0</div><div class="mill-muted"><span id="locationRateLabel">Производство:</span> <strong id="millLocationRate">0</strong> <span id="locationRateUnit">досок / сек</span></div><div class="warehouse-meter"><span id="warehouseFill"></span></div></article>
+        <article class="mill-card"><h3>Станок</h3><div class="mill-number" id="millMachineStatus">Ждёт брёвна</div><div class="mill-muted" id="millMachineHint">Станок работает автоматически, когда есть брёвна</div></article>
+      </div>
+      <section class="warehouse-overview" id="warehouseOverview" hidden aria-label="Складская сводка">
+        <div><span>Уровень</span><strong id="warehouseLevelValue">1</strong></div>
+        <div><span>Лимит каждого ресурса</span><strong id="warehouseCapacityValue">100</strong></div>
+        <div><span>Больше всего запасов</span><strong id="warehousePeakValue">0 / 100</strong></div>
+      </section>
+      <section class="warehouse-inventory" id="warehouseInventory" aria-label="Запасы на складе" hidden></section>
+      <div class="mill-controls" id="locationControls">
+        <button class="mill-button primary-action" id="locationPrimaryAction" type="button">Улучшить · 15</button>
+        <button class="mill-button secondary secondary-action" id="locationSecondaryAction" type="button">0 / сек</button>
+      </div>
+      <section class="market-trade" id="marketTrade" hidden aria-label="Продажа ресурсов">
+        <div class="market-trade-heading"><div><span class="market-eyebrow">ТОРГОВЛЯ</span><h3>Продажа запасов</h3></div><span class="market-trade-caption">Цена с учётом активных событий</span></div>
+        <div class="market-trade-fields"><label for="marketResource">Товар на продажу</label><select id="marketResource"></select><div class="market-stock-summary"><span>Доступно</span><strong id="marketStock">0</strong><span id="marketResourceName">единиц на складе</span></div><div class="market-estimate"><span>Выручка за весь запас</span><strong id="marketTradeEstimate">0 монет</strong></div><button class="market-sell-button" id="marketSell" type="button">Продать всё</button></div>
+      </section>
+      <p class="upgrade-hint" id="upgradeHint"></p>
+      <p class="notice" id="locationNotice" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="utility-panel" id="profilePanel" aria-hidden="true"><div class="utility-card"><header class="utility-head"><h2 class="utility-title"><img src="assets/ui/profile.svg" alt="">Профиль лесника</h2><button class="utility-close" type="button" aria-label="Закрыть">×</button></header><div class="profile-card"><div class="profile-avatar"><img src="assets/ui/profile.svg" alt=""></div><div><h3>Хранитель долины</h3><p>Твоя мастерская растёт с каждым днём</p><button class="tutorial-restart" id="helpOpen" type="button">Как играть</button></div></div><div class="utility-stats"><div class="utility-stat profile-level-stat"><strong id="profilePlayerLevel">1</strong><span>уровень игрока</span><div class="xp-progress-copy"><span>Опыт до следующего уровня</span><strong id="profileXpText">0 / 50</strong></div><div class="xp-progress-track" id="profileXpProgress" role="progressbar" aria-label="Опыт до следующего уровня" aria-valuemin="0" aria-valuemax="50" aria-valuenow="0"><div class="xp-progress-fill" id="profileXpFill"></div></div></div><div class="utility-stat"><strong id="profileLifetime">0</strong><span>заработано монет</span></div><div class="utility-stat"><strong id="profileLevels">3</strong><span>уровни зданий</span></div><div class="utility-stat"><strong id="profileShipped">0</strong><span>ящиков отправлено</span></div></div><button class="recovery-button" id="restoreLocalSave" type="button" hidden>Восстановить локальный прогресс</button></div></section>
+  <section class="utility-panel" id="achievementsPanel" aria-hidden="true"><div class="utility-card"><header class="utility-head"><h2 class="utility-title"><img src="assets/ui/achievements.svg" alt="">Достижения долины</h2><button class="utility-close" type="button" aria-label="Закрыть">×</button></header><div class="achievement-list" id="achievementList"></div></div></section>
+  <section class="utility-panel" id="collectionPanel" aria-hidden="true"><div class="utility-card"><header class="utility-head"><h2 class="utility-title"><img src="assets/ui/collection.svg" alt="">Коллекция мастерской</h2><button class="utility-close" type="button" aria-label="Закрыть">×</button></header><div class="collection-grid" id="collectionGrid"></div></div></section>
+  <section class="utility-panel" id="ordersPanel" aria-hidden="true"><div class="utility-card"><header class="utility-head"><h2 class="utility-title"><img src="assets/ui/market.svg" alt="">Заказы и задания</h2><button class="utility-close" type="button" aria-label="Закрыть">×</button></header><section class="order-panel" id="orderPanel" aria-live="polite"><div class="order-icon">📦</div><div><strong id="orderTitle">Рыночный заказ</strong><p id="orderDescription"></p><div class="order-options" id="orderOptions"></div></div><div><div class="order-progress" id="orderProgress"></div><button class="order-button" id="orderClaim" type="button">Забрать награду</button></div></section><div class="retention-panel"><article class="retention-card"><h3>Задание дня</h3><p id="dailyQuestText"></p><button id="dailyQuestClaim" type="button">Забрать награду</button></article><article class="retention-card"><h3>Серия входов</h3><p id="streakText"></p><button id="streakClaim" type="button">Забрать бонус</button></article></div></div></section>
+  <dialog id="helpDialog" class="help-dialog"><form method="dialog"><button class="utility-close help-close" aria-label="Закрыть">×</button><h2>Как развивается мастерская</h2><ol><li>Лесная делянка производит брёвна, лесопилка превращает их в доски.</li><li>Мастерская упаковки делает ящики. Открой рынок и отправляй готовые товары.</li><li>Улучшай здания: нажми на объект на поле, чтобы увидеть стоимость и прирост.</li><li>Выполняй заказы и задания, чтобы получить монеты и опыт. Новый уровень открывает зоны.</li><li>Нажми на склад на поле, чтобы проверить запасы и увеличить вместимость.</li></ol><div class="mill-controls"><button class="mill-button" value="close">Понятно</button><button class="mill-button secondary" id="helpTutorialRestart" type="button">Начать обучение заново</button></div></form></dialog>
+  <script src="state.js?v=20261009-19"></script>
+  <script src="analytics.js?v=20261009-19"></script>
+  <script src="economy.js?v=20261009-19"></script>
+  <script src="orders.js?v=20261009-19"></script>
+  <script src="retention.js?v=20261009-19"></script>
+  <script src="yandex.js?v=20261009-19"></script>
+  <script src="ui.js?v=20261009-19"></script>
+  <script src="app.js?v=20261009-19"></script>
+</body>
+</html>
