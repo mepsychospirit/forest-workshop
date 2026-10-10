@@ -20,6 +20,7 @@
     }, delay);
   }
   function queueCloudSave(flush = false) {
+    if (game.vk?.isVKLaunch) { game.vk.queueCloudSave(flush); return; }
     const player = game.player;
     if (typeof player?.setData !== "function") return;
     if (flush) {
@@ -79,6 +80,7 @@
     }
     return false;
   }
+  game.cloudSaveIsAhead = cloudSaveIsAhead;
   function restoreLocalBackup() {
     try {
       const backup = game.normalizeSave(JSON.parse(localStorage.getItem(`${STORAGE_KEY}-before-cloud-restore`)));
@@ -127,6 +129,7 @@
     catch { startGameplay(); }
   }
   function showRewardedAd(rewardType) {
+    if (game.vk?.isVKLaunch) { void game.vk.showRewardedAd(rewardType); return; }
     if (game.rewardedAdInProgress || typeof game.ysdk?.adv?.showRewardedVideo !== "function") return;
     const state = game.getState();
     if (rewardType === "booster" && state.boosterUntil > Date.now()) return;

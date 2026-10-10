@@ -138,4 +138,5 @@
   document.addEventListener("visibilitychange", () => { if (document.hidden) game.yandex.stopGameplay(); else game.yandex.startGameplay(); });
   window.addEventListener("pagehide", saveBeforeExit);
   game.yandex.initializeYandexGames();
+  game.vk?.initialize();
 })(window.ForestGame = window.ForestGame || {});
